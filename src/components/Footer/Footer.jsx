@@ -27,7 +27,7 @@ function Footer() {
               </div>
               <span className="text-[18px]">Get 10% off your first order</span>
               <form action="">
-                <div className="bg-inherit border-2 w-[70%] sm:w-fit flex items-center pe-4 sm:pe-7 rounded">
+                <div className="bg-neutral-300 dark:bg-gray-950 dark:text-gray-200 border-2 w-[70%] sm:w-fit flex items-center pe-4 sm:pe-7 rounded-lg">
                   <div>
                     <input
                       placeholder="Enter Your email"
