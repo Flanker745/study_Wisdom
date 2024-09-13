@@ -14,7 +14,7 @@ function Footer() {
   return (
     <>
       <div className="">
-        <footer className="bg-neutral-200  dark:bg-gray-900  dark:text-gray-200 ">
+        <footer className="bg-neutral-200  dark:bg-gray-900 pb-[80px] lg:pb-0 dark:text-gray-200 ">
           <div className="flex flex-wrap justify-around sm:pt-[70px] pb-5">
             <div className="space-y-5 w-[90%] sm:w-[40%] lg:mt-0 mt-9 lg:w-fit">
               <div className=" text-[35px]  font-semibold">
@@ -91,7 +91,7 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="text-center text-xs sm:text-sm pb-3 flex flex-wrap sm:gap-8 gap-3 justify-center">
+          <div className="text-center border-t pt-4 border-gray-600  mt-2 text-xs sm:text-sm pb-3 flex flex-wrap sm:gap-8 gap-3 justify-center">
             <p>© 2024 StudyWisdom. All Rights Reserved.</p>
             <span className="sm:block hidden">|</span>
             <p>
