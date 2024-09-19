@@ -14,7 +14,7 @@ function Footer() {
   return (
     <>
       <div className="">
-        <footer className="bg-neutral-200  dark:bg-gray-900 pb-[80px] lg:pb-0 dark:text-gray-200 ">
+        <footer className="bg-neutral-200 blocke dark:bg-gray-900 pb-[80px] lg:pb-0 dark:text-gray-200 ">
           <div className="flex flex-wrap justify-around sm:pt-[70px] pb-5">
             <div className="space-y-5 w-[90%] sm:w-[40%] lg:mt-0 mt-9 lg:w-fit">
               <div className=" text-[35px]  font-semibold">

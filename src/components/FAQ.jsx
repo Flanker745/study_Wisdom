@@ -29,7 +29,7 @@ function FAQ() {
   const [show, setShow] = useState(1);
 
   return (
-    <div className="space-y-5 w-full bg-neutral-200  dark:bg-gray-900 dark:text-gray-200  px-2 lg:px-4  py-3 m-auto">
+    <div className="space-y-5 w-full blocke bg-neutral-200  dark:bg-gray-900 dark:text-gray-200  px-2 lg:px-4  py-3 m-auto">
       <h5 className="text-[30px] sm:ps-4">FAQ's</h5>
       <div className="space-y-2">
         {faqs.map((faq, index) => {

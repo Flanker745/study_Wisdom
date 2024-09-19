@@ -2,7 +2,7 @@ import React from "react";
 import banner from "/src/assets/banner/banner.svg";
 function Hero() {
   return (
-    <div className="bg-neutral-200 flex-wrap pb-9 duration-300 items-center justify-center dark:bg-gray-900 dark:text-gray-200 p-2 flex ">
+    <div className="bg-neutral-200 blocke flex-wrap pb-9 duration-300 items-center justify-center dark:bg-gray-900 dark:text-gray-200 p-2 flex ">
       <div className="md:w-[35%] w-[80%] sm:w-[50%] ">
         <img className="w-full h-full" src={banner} alt="banner" />
       </div>

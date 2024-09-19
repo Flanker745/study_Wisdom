@@ -7,3 +7,27 @@
     scroll-behavior: smooth;
 }
   
+@keyframes appear {
+    from {
+        opacity: 0;
+        scale: 0.8;
+    }
+    to{
+        opacity: 1;
+        scale: 1;
+    }
+}
+/* .blocke{
+    animation: appear  linear;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+} */
+.glow-on-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .glow-on-hover:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
+    transform: scale(1.1);
+  }
+  

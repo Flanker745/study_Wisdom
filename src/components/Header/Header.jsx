@@ -44,7 +44,7 @@ function Header() {
         id="top"
         className={`${
           scrolled ? "" : "lg:relative fixed"
-        } duration-300 w-full z-10 bg-white dark:bg-gray-900 border-b dark:border-gray-700 transition-all ease-in-out`}
+        } duration-300 w-full z-10 bg-white blocke dark:bg-gray-900 border-b dark:border-gray-700 transition-all ease-in-out`}
       >
         <a
           href="#top"
