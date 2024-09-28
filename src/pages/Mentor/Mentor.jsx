@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaPhone, FaVideo, FaComment, FaCheckCircle, FaStar } from "react-icons/fa";
 import { IoRocketOutline } from "react-icons/io5"; // For expertise
 import { FiBriefcase } from "react-icons/fi"; // For field
@@ -7,7 +8,8 @@ import dp from "./../../assets/dp/profile-pic (4).png";
 
 const Mentor = () => {
   const [mentors, setMentors] = useState([]);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     // Sample data used here for testing, replace with API call
     setMentors([
@@ -16,17 +18,17 @@ const Mentor = () => {
         dppName: "John Doe",
         expertise: "Mathematics",
         field: "Education",
-        about:
-          "Experienced mentor in high school and college-level mathematics.",
+        about: "Experienced mentor in high school and college-level mathematics.",
         rating: 4.8,
         location: "New York, USA",
-        price: {
-          videoCall: 50,
-          call: 30,
-          chat: 10,
-        },
+        price: { videoCall: 50, call: 30, chat: 10 },
         verified: true,
         profileImage: dp,
+        experience: 5,  // In years
+        qualifications: "PhD in Mathematics",
+        availability: "Weekdays: 9 AM - 5 PM",
+        whatsappNumber:7014944745,
+        phoneNumber:7014944745
       },
       {
         id: 2,
@@ -36,96 +38,39 @@ const Mentor = () => {
         about: "PhD in Physics with over 10 years of teaching experience.",
         rating: 4.6,
         location: "London, UK",
-        price: {
-          videoCall: 60,
-          call: 40,
-          chat: 20,
-        },
+        price: { videoCall: 60, call: 40, chat: 20 },
         verified: false,
         profileImage: dp,
-      },
-      {
-        id: 3,
-        dppName: "Jane Smith",
-        expertise: "Physics",
-        field: "Science",
-        about: "PhD in Physics with over 10 years of teaching experience.",
-        rating: 4.6,
-        location: "London, UK",
-        price: {
-          videoCall: 60,
-          call: 40,
-          chat: 20,
-        },
-        verified: false,
-        profileImage: dp,
-      },
-      {
-        id: 4,
-        dppName: "Jane Smith",
-        expertise: "Physics",
-        field: "Science",
-        about: "PhD in Physics with over 10 years of teaching experience.",
-        rating: 4.6,
-        location: "London, UK",
-        price: {
-          videoCall: 60,
-          call: 40,
-          chat: 20,
-        },
-        verified: false,
-        profileImage: dp,
-      },
-      {
-        id: 5,
-        dppName: "Jane Smith",
-        expertise: "Physics",
-        field: "Science",
-        about: "PhD in Physics with over 10 years of teaching experience.",
-        rating: 4.6,
-        location: "London, UK",
-        price: {
-          videoCall: 60,
-          call: 40,
-          chat: 20,
-        },
-        verified: false,
-        profileImage: dp,
-      },
-      {
-        id: 6,
-        dppName: "Jane Smith",
-        expertise: "Physics",
-        field: "Science",
-        about: "PhD in Physics with over 10 years of teaching experience.",
-        rating: 4.6,
-        location: "London, UK",
-        price: {
-          videoCall: 60,
-          call: 40,
-          chat: 20,
-        },
-        verified: false,
-        profileImage: dp,
-      },
-      {
-        id: 7,
-        dppName: "Jane Smith",
-        expertise: "Physics",
-        field: "Science",
-        about: "PhD in Physics with over 10 years of teaching experience.",
-        rating: 4.6,
-        location: "London, UK",
-        price: {
-          videoCall: 60,
-          call: 40,
-          chat: 20,
-        },
-        verified: false,
-        profileImage: dp,
-      },
+        experience: 10,  // In years
+        qualifications: "MSc, PhD in Physics",
+        availability: "Weekends: 10 AM - 4 PM",
+        whatsappNumber:7014944745,
+        phoneNumber:7014944745
+      }
+      
+      // More mentors...
     ]);
   }, []);
+
+  const handleCallClick = (mentor) => {
+    // Handle redirect to call
+    window.location.href = `tel:${mentor.phoneNumber}`;
+  };
+
+  const handleVideoCallClick = (mentor) => {
+    // Redirect to WhatsApp video call
+    window.location.href = `https://wa.me/${mentor.whatsappNumber}?text=Hi! I'd like to schedule a video call.`;
+  };
+
+  const handleChatClick = (mentor) => {
+    // Redirect to chat box
+    navigate(`/chat/${mentor.id}` , { state: { mentor }});
+  };
+
+  const handleProductClick = (mentor) => {
+    // Redirect to product details page
+    navigate(`/mentor/${mentor.id}` , { state: { mentor } });
+  };
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -133,12 +78,13 @@ const Mentor = () => {
   };
 
   return (
-    <div className="py-10 min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="py-10  bg-gray-100 dark:bg-gray-900">
       <div className="grid grid-cols-1 w-[90%] m-auto sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {mentors.map((mentor) => (
           <div
             key={mentor.id}
-            className="bg-white dark:bg-gray-950 rounded-2xl p-6 flex flex-col sm:flex-row transition-transform duration-300 shadow-md dark:shadow-gray-950 hover:scale-105 hover:shadow-lg"
+            onClick={() => handleProductClick(mentor)} // Redirect to product details page
+            className="bg-white dark:bg-gray-950 rounded-2xl p-6 flex flex-col sm:flex-row transition-transform duration-300 shadow-md dark:shadow-gray-950 hover:scale-105 hover:shadow-lg cursor-pointer"
           >
             {/* Left Side Mentor Info */}
             <div className="flex-1">
@@ -162,7 +108,7 @@ const Mentor = () => {
               </div>
 
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {truncateText(mentor.about, 20)}
+                {truncateText(mentor.about, 12)}
               </p>
 
               <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300 mb-1">
@@ -187,9 +133,15 @@ const Mentor = () => {
             </div>
 
             {/* Right Side Pricing Icons */}
-            <div className="flex sm:flex-col justify-between  sm:justify-center items-center space-y-4 sm:space-y-6 sm:pl-6 mt-4 sm:mt-0">
-              <div className="flex flex-col items-center mt-4 ">
-                <div className="rounded-full border-4 border-blue-500 p-2 glow-on-hover  hover:shadow-lg">
+            <div className="flex sm:flex-col justify-between sm:justify-center items-center space-y-4 sm:space-y-6 sm:pl-6 mt-4 sm:mt-0">
+              <div className="flex flex-col items-center mt-4">
+                <div
+                  className="rounded-full border-4 border-blue-500 p-2 glow-on-hover hover:shadow-lg"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering product click
+                    handleCallClick(mentor);
+                  }}
+                >
                   <FaPhone className="text-blue-500 text-lg" />
                 </div>
                 <p className="text-lg font-semibold text-gray-700 dark:text-gray-400 mt-2">
@@ -197,8 +149,14 @@ const Mentor = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center mt-4 ">
-                <div className="rounded-full border-4 border-green-500 p-2 glow-on-hover  hover:shadow-lg">
+              <div className="flex flex-col items-center mt-4">
+                <div
+                  className="rounded-full border-4 border-green-500 p-2 glow-on-hover hover:shadow-lg"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleVideoCallClick(mentor);
+                  }}
+                >
                   <FaVideo className="text-green-500 text-lg" />
                 </div>
                 <p className="text-lg font-semibold text-gray-700 dark:text-gray-400 mt-2">
@@ -206,8 +164,14 @@ const Mentor = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center mt-4 ">
-                <div className="rounded-full border-4 border-purple-500 p-2 glow-on-hover  hover:shadow-lg">
+              <div className="flex flex-col items-center mt-4">
+                <div
+                  className="rounded-full border-4 border-purple-500 p-2 glow-on-hover hover:shadow-lg"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleChatClick(mentor);
+                  }}
+                >
                   <FaComment className="text-purple-500 text-lg" />
                 </div>
                 <p className="text-lg font-semibold text-gray-700 dark:text-gray-400 mt-2">

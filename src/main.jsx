@@ -12,6 +12,9 @@ import Notes from "./pages/Notes/Notes";
 import Aichat from "./pages/AiChat/Aichat";
 import Profile from "./pages/Profile/Profile";
 import Login from "./pages/Login/Login";
+import MentorDetails from "./pages/Mentor/MentorDetails";
+import Chat from "./pages/chat/Chat";
+import NoteDetailPage from "./pages/Notes/NoteDetailPage";
 
 // Lazy load the components
 const Home = lazy(() => import("./components/Home"));
@@ -36,12 +39,24 @@ const router = createBrowserRouter([
             element: <Mentor />,
           },
           {
+            path:"mentor/:id",
+            element:<MentorDetails/>  
+          },
+          {
             path: "/notes",
             element: <Notes />,
           },
           {
+            path:"/notes/:noteId" ,
+            element:<NoteDetailPage/>
+          },
+          {
             path: "/aiChat",
             element: <Aichat />,
+          },
+          {
+            path:"/chat/:id",
+            element:<Chat/>
           },
           {
             path: "/profile",
