@@ -1,23 +1,255 @@
-import React from "react";
-import { IoSettingsSharp } from "react-icons/io5";
+import React, { useState } from "react";
+import Cropper from "react-easy-crop";
+import {
+  IoSettingsSharp,
+  IoPencilSharp,
+  IoPerson,
+  IoMail,
+  IoMaleFemale,
+  IoLockClosed,
+  IoCall
+} from "react-icons/io5"; // Updated icons
+import { FaCamera } from "react-icons/fa"; // Camera icon for profile pic
+import dp from "./../../assets/dp/profile-pic (4).png";
+import getCroppedImg from "./getCroppedImg"; // Utility function to crop image
 
 function Profile() {
+  const [isEditingPic, setIsEditingPic] = useState(false);
+  const [profilePic, setProfilePic] = useState(dp);
+  const [name, setName] = useState("John Doe");
+  const [gender, setGender] = useState("Male");
+  const [email] = useState("john.doe@example.com");
+  const [userNo] = useState("123-456-7890");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  // Change Password Fields
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleEditPic = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+        setIsEditingPic(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDone = async () => {
+    const croppedImage = await getCroppedImg(selectedImage, croppedAreaPixels);
+    setProfilePic(croppedImage);
+    setIsEditingPic(false);
+  };
+
+  const handleChangePassword = () => {
+    if (newPassword === confirmPassword) {
+      alert("Password changed successfully!");
+      // Add your password update logic here
+      setIsChangingPassword(false);
+    } else {
+      alert("Passwords do not match. Please try again.");
+    }
+  };
+
   return (
-    <div className="h-[50vh] w-full flex items-center justify-center bg-neutral-200 dark:bg-gray-900 dark:text-gray-200">
-      <div className="space-y-9">
-        <div className="text-[70px] md:text-[150px] w-fit m-auto flex">
-          <IoSettingsSharp className=" animate-spin-slow dark:text-gray-200 text-gray-400" />
-          <div className="rotate-16 text-[60px] md:text-[130px] ms-[-15px] md:ms-[-28px] md:mt-[-25px]  mt-[-10px]">
-            <IoSettingsSharp className=" text-yellow-500  animate-spin-slow-reverse" />
-          </div>
-        </div>
-        <div className="px-3 text-center space-y-5 sm:text-xl">
-          <h5 className="text-[24px] font-semibold text-purple-900 sm:text-5xl">
-            Profile is under maintenance
-          </h5>
-          <p>We're working hard to improve the user experience. Stay tuned!</p>
+    <div className="min-h-screen w-full bg-neutral-200 text-gray-700 dark:bg-gray-900 dark:text-gray-200 p-6">
+      <h1 className="border-b border-gray-700 pb-4 text-4xl font-bold text-center">Profile</h1>
+
+      {/* Profile Pic Section */}
+      <div className="flex justify-center mt-8">
+        <div className="relative w-[150px] h-[150px]">
+          <img src={profilePic} alt="Profile" className="rounded-full w-full h-full object-cover shadow-lg" />
+          <button
+            className="absolute bottom-2 right-2 p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition"
+            onClick={() => document.getElementById("fileInput").click()}
+            title="Change Profile Picture"
+          >
+            <FaCamera />
+          </button>
+          <input
+            id="fileInput"
+            type="file"
+            accept="image/*"
+            onChange={handleEditPic}
+            className="hidden"
+          />
         </div>
       </div>
+
+      {/* User Details Section */}
+      <div className="max-w-xl mx-auto mt-10 bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+        {/* Name */}
+        <div className="flex items-center mb-6">
+          <IoPerson className="text-2xl text-blue-500 mr-4" />
+          <div className="flex-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400">Name</p>
+            <div className="flex items-center">
+              <span className="text-lg font-semibold">{name}</span>
+              <button
+                className="ml-3 text-gray-500 hover:text-blue-500"
+                onClick={() => {
+                  const newName = prompt("Enter your name:", name);
+                  if (newName) setName(newName);
+                }}
+                title="Edit Name"
+              >
+                <IoPencilSharp />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Gender */}
+        <div className="flex items-center mb-6">
+          <IoMaleFemale className="text-2xl text-pink-500 mr-4" />
+          <div className="flex-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400">Gender</p>
+            <div className="flex items-center">
+              <span className="text-lg font-semibold">{gender}</span>
+              <button
+                className="ml-3 text-gray-500 hover:text-blue-500"
+                onClick={() => {
+                  const newGender = prompt("Enter your gender (Male/Female/Other):", gender);
+                  if (newGender) setGender(newGender);
+                }}
+                title="Edit Gender"
+              >
+                <IoPencilSharp />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Email */}
+        <div className="flex items-center mb-6">
+          <IoMail className="text-2xl text-green-500 mr-4" />
+          <div className="flex-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+            <span className="text-lg font-semibold">{email}</span>
+          </div>
+        </div>
+
+        {/* User Number */}
+        <div className="flex items-center mb-6">
+          <IoCall className="text-2xl text-purple-500 mr-4" />
+          <div className="flex-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400">User No.</p>
+            <span className="text-lg font-semibold">{userNo}</span>
+          </div>
+        </div>
+
+        {/* Change Password Section */}
+        <div className="mt-8">
+          {!isChangingPassword ? (
+            <button
+              className="flex items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
+              onClick={() => setIsChangingPassword(true)}
+            >
+              <IoLockClosed className="mr-2" />
+              Change Password
+            </button>
+          ) : (
+            <div className="mt-6">
+              <div className="mb-4">
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1" htmlFor="currentPassword">
+                  Current Password
+                </label>
+                <input
+                  id="currentPassword"
+                  type="password"
+                  placeholder="Enter current password"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1" htmlFor="newPassword">
+                  New Password
+                </label>
+                <input
+                  id="newPassword"
+                  type="password"
+                  placeholder="Enter new password"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1" htmlFor="confirmPassword">
+                  Confirm New Password
+                </label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm new password"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+              <div className="flex justify-end space-x-4">
+                <button
+                  className="flex items-center bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition"
+                  onClick={() => setIsChangingPassword(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="flex items-center bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-600 transition"
+                  onClick={handleChangePassword}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Full-Screen Cropping Modal */}
+      {isEditingPic && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
+          <div className="relative w-full h-full md:w-3/4 md:h-3/4 bg-gray-900">
+            <Cropper
+              image={selectedImage}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-4">
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded-lg"
+                onClick={() => setIsEditingPic(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                onClick={handleDone}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

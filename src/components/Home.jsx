@@ -10,8 +10,12 @@ function Home() {
   const location = useLocation();
 
   // Check if the current path is the mentor details page
-  const isMentorDetailsPage = location.pathname.startsWith("/mentor/")  || location.pathname.includes("/notes/");
+  const isMentorDetailsPage =
+    location.pathname.startsWith("/mentor/") ||
+    location.pathname.includes("/notes/") ||
+    location.pathname.startsWith("/profile");
   const chatPage = location.pathname.startsWith("/chat/");
+  const profilePage = location.pathname.startsWith("/profile");
 
   return (
     <>
@@ -25,8 +29,12 @@ function Home() {
         <Outlet />
         {!chatPage && (
           <>
-            <FAQ />
-            <Footer />
+            {!profilePage && (
+              <>
+                <FAQ /> 
+                <Footer />
+              </>
+            )}
           </>
         )}
       </div>
