@@ -486,7 +486,7 @@ const SignUp = () => {
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
             />
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-4">
+            <div className="absolute bottom-24 md:bottom-4 left-0 right-0 flex justify-center space-x-4">
               <button type="button"
                 className="bg-red-500 text-white py-2 px-4 rounded-lg"
                 onClick={() => setIsEditingPic(false)}

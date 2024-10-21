@@ -84,6 +84,12 @@ function Login() {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+        <p className="mt-6 ">
+          <Link to="/forgetPass" className="text-blue-600">
+            Forget Passowrd !
+          </Link>
+        </p>
+        <p className="mt-6 text-center"></p>
         <p className="my-1">
           Don't have an account?{" "}
           <Link to={"/signUp"} className="text-blue-500 font-semibold">

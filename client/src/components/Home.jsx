@@ -15,10 +15,10 @@ function Home() {
     location.pathname.includes("/notes/") ||
     location.pathname.startsWith("/profile") ||
     location.pathname.startsWith("/login") ||
-    location.pathname.startsWith("/signUp");
+    location.pathname.startsWith("/signUp") ||  location.pathname.startsWith("/forgetPass");
   const chatPage = location.pathname.startsWith("/chat/") || location.pathname.startsWith("/addMentor") || location.pathname.startsWith("/addNotes") ;
   const profilePage = location.pathname.startsWith("/profile") ;
-  const loginPage =  location.pathname.startsWith("/login") ||  location.pathname.startsWith("/signUp");
+  const loginPage =  location.pathname.startsWith("/login") ||  location.pathname.startsWith("/signUp") ||  location.pathname.startsWith("/forgetPass") ;
 
   return (
     <>

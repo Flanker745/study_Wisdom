@@ -211,12 +211,12 @@ app.post("/changePassword", async (req, res) => {
       await user.save();
       res
         .status(200)
-        .json({ msg: "Password updated successfully", status: true });
+        .json({ msg: "Password updated successfully", success: true });
     } else {
-      res.status(404).json({ msg: "User not found", status: false });
+      res.status(404).json({ msg: "User not found", success: false });
     }
   } catch (error) {
-    res.status(500).json({ msg: error.message, status: false });
+    res.status(500).json({ msg: error.message, success: false });
   }
 });
 
