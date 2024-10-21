@@ -249,7 +249,7 @@ app.post("/changepass", verifyJWT, async (req, res) => {
 
 // profile
 
-app.get("/profile/:id", verifyJWT, async (req, res) => {
+app.get("/profile/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const response = await User.findById(id);
@@ -404,7 +404,7 @@ app.post("/addNote", verifyJWT, notesPics, async (req, res) => {
   }
 });
 
-app.get("/viewNotes", verifyJWT, async (req, res) => {
+app.get("/viewNotes", async (req, res) => {
   try {
     const response = await note.find(); // Retrieve all mentors
     const newResponse = response.map((v) => ({
@@ -422,7 +422,7 @@ app.get("/viewNotes", verifyJWT, async (req, res) => {
     res.json({ msg: err.message, status: false });
   }
 });
-app.get("/viewNotes/:id", verifyJWT, async (req, res) => {
+app.get("/viewNotes/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const response = await note.findById(id);
@@ -448,7 +448,7 @@ app.get("/viewNotes/:id", verifyJWT, async (req, res) => {
 
 
 
-app.get("/searchNotes", verifyJWT, async (req, res) => {
+app.get("/searchNotes", async (req, res) => {
   const { search } = req.query; // Get the 'search' query parameter
 
   try {
@@ -483,7 +483,7 @@ app.get("/searchNotes", verifyJWT, async (req, res) => {
 });
 
 
-app.get("/viewMentor", verifyJWT, async (req, res) => {
+app.get("/viewMentor", async (req, res) => {
 
   try {
     const response = await Mentor.find()
@@ -515,7 +515,7 @@ app.get("/viewMentor", verifyJWT, async (req, res) => {
 
 
 
-app.get("/viewMentor/:id", verifyJWT, async (req, res) => {
+app.get("/viewMentor/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const response = await Mentor.findById({userId: new mongoose.Types.ObjectId(id),
@@ -534,7 +534,7 @@ app.get("/viewMentor/:id", verifyJWT, async (req, res) => {
 
 
 
-app.get("/searchMentor", verifyJWT, async (req, res) => {
+app.get("/searchMentor", async (req, res) => {
   const { search } = req.query; // Get the 'search' query parameter
 
   try {
