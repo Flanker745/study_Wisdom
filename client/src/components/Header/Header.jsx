@@ -22,7 +22,7 @@ function Header() {
   const { Login, setLogin, userData, loading, error } = useContext(UserContext);
   const [scrolled, setScrolled] = useState(false);
   const { searchInput, setSearchInput } = useContext(SearchContext);
-
+  const [profilepic , setprofilepic] = useState("");
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 350) {
@@ -44,10 +44,11 @@ function Header() {
   useEffect(() => {
     if (state) {
     }
-  }, []);
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    if(userData){
+      setprofilepic(userData.dp)
+    }
+  }, [userData]);
+ 
   return (
     <>
       <header
@@ -146,8 +147,9 @@ function Header() {
                   }`}
                 >
                   <Link to="/profile">
+                 
                     <div className="w-[42px] h-[42px] m-auto rounded-full  overflow-hidden">
-                      <img className="w-full h-full" src={userData.dp} alt="" />
+                      <img className="w-full h-full" src={profilepic}  alt="" />
                     </div>
                   </Link>
                 </li>
