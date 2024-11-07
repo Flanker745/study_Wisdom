@@ -74,9 +74,6 @@ const Mentor = () => {
       let url = `${api}/searchMentor?search=${encodeURIComponent(query)}`;
       let response = await fetch(url, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
       let data = await response.json();
       if (data.res) {

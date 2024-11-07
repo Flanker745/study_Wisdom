@@ -5,7 +5,7 @@ import { LoginContext } from "../../main";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const api = "http://localhost:5000"; {/* https://serverapi.studywisdom.com/ */} // Your API base URL
+  const api = "https://serverapi.studywisdom.com/"; {/* https://serverapi.studywisdom.com/ */} // Your API base URL
   const [login, setLogin] = useState(false); // Manage login state
   const [userData, setUserData] = useState(null); // State to store user data
   const [loading, setLoading] = useState(true); // State to handle loading
