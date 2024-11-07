@@ -94,7 +94,6 @@ const Mentor = () => {
 const Homepage =  location.pathname.startsWith("/");
   useEffect(() => {
     if (searchInput || Homepage) {
-      console.log("hii")
       searchMentors(searchInput);
     } else {
       fetchMentors();
@@ -122,8 +121,8 @@ const Homepage =  location.pathname.startsWith("/");
                   className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-purple-300 shadow-lg"
                 />
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">
-                    {mentor.userId.firstName} {mentor.userId.lastName}
+                  <h2 className="text-xl  sm:text-2xl font-bold text-gray-800 dark:text-gray-200">
+                    {mentor.name}
                   </h2>
                   {mentor.verified && (
                     <div className="flex items-center text-green-500 space-x-1">

@@ -3,7 +3,6 @@ import Cropper from "react-easy-crop";
 import cookie from "react-cookies";
 
 import {
-  IoSettingsSharp,
   IoPencilSharp,
   IoPerson,
   IoMail,
@@ -24,8 +23,74 @@ function Profile() {
   const id = state;
   const navigate = useNavigate();
 
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    address: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [errors, setErrors] = useState({});
+  const [oldPassNot, setoldPassNot] = useState(false);
+  const passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+
+  const handleChange = (e) => {
+    setUserInfo({
+      ...userInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleChangePassword = async () => {
+    const newErrors = {};
+    const conformed = {};
+
+    if (!passwordRegex.test(userInfo.newPassword)) {
+      newErrors.newPassword =
+        "Password must be 6-16 characters and include letters, numbers, and special characters.";
+    }
+
+    if (userInfo.newPassword !== userInfo.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+   
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      let response = await fetch(`${api}/changepass`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" ,           
+          Authorization: `Bearer ${token}`,
+      },
+        body: JSON.stringify({
+          id: id,
+          oldpass: userInfo.oldPassword,
+          newPass: userInfo.newPassword,
+        }),
+      });
+
+      response = await response.json();
+      if(!response.status){
+        setoldPassNot(response.msg)
+
+      }
+      if (response.status) {
+        setUserInfo({
+          ...userInfo,
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+        setIsChangingPassword(false);
+
+      }
+    }
+  };
+
   useEffect(() => {
-    console.log(userData);
     if (userData) {
       setProfilePic(userData.dp);
     }
@@ -44,9 +109,6 @@ function Profile() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   // Change Password Fields
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -64,31 +126,27 @@ function Profile() {
     }
   };
 
+  const changeProfilePic = (path)=>{
+    console.log(path)
+  }
+
   const handleDone = async () => {
     const croppedImage = await getCroppedImg(selectedImage, croppedAreaPixels);
     setProfilePic(croppedImage);
+    changeProfilePic(croppedImage);
     setIsEditingPic(false);
   };
 
-  const handleChangePassword = () => {
-    if (newPassword === confirmPassword) {
-      alert("Password changed successfully!");
-      // Add your password update logic here
-      setIsChangingPassword(false);
-    } else {
-      alert("Passwords do not match. Please try again.");
-    }
-  };
   const logout = () => {
     dispatch({ type: "USER", payload: false });
-    
+
     // Remove cookies with the correct path
     cookie.remove("user", { path: "/" });
     cookie.remove("authToken", { path: "/" });
-    
+
     navigate("/");
   };
-  
+
   if (loading) {
     return <div className="loading"></div>;
   }
@@ -215,13 +273,17 @@ function Profile() {
                   Current Password
                 </label>
                 <input
-                  id="currentPassword"
+                  id="oldPassword"
+                  name="oldPassword"
                   type="password"
+                  value={userInfo.oldPassword}
+                  onChange={handleChange}
                   placeholder="Enter current password"
                   className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
                 />
+                {oldPassNot && (
+                  <p className="text-red-500 text-sm">{oldPassNot}</p>
+                )}
               </div>
               <div className="mb-4">
                 <label
@@ -232,12 +294,16 @@ function Profile() {
                 </label>
                 <input
                   id="newPassword"
+                  name="newPassword"
                   type="password"
+                  value={userInfo.newPassword}
+                  onChange={handleChange}
                   placeholder="Enter new password"
                   className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
                 />
+                {errors.newPassword && (
+                  <p className="text-red-500 text-sm">{errors.newPassword}</p>
+                )}
               </div>
               <div className="mb-4">
                 <label
@@ -248,12 +314,18 @@ function Profile() {
                 </label>
                 <input
                   id="confirmPassword"
+                  name="confirmPassword"
                   type="password"
+                  value={userInfo.confirmPassword}
+                  onChange={handleChange}
                   placeholder="Confirm new password"
                   className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
               <div className="flex justify-end space-x-4">
                 <button
@@ -284,7 +356,7 @@ function Profile() {
               List as mentor
             </Link>
           )}
-           {!userData.notes && (
+          {!userData.notes && (
             <Link
               to={"/addNotes"}
               className="flex mt-7  items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"

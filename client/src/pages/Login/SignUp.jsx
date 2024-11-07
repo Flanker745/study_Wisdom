@@ -67,7 +67,6 @@ const SignUp = () => {
            const result = await handleGenerateOtp(email);
            setLoadingOtp(false); // Reset loading state
           if (result) {
-            console.log("send")
             isValid = true;
             setOtpSent(true);
           } else {

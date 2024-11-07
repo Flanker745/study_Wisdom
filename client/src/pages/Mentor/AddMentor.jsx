@@ -161,7 +161,6 @@ const MentorSignUp = () => {
       }
       nav("/")
 
-      console.log("Mentor added successfully!");
     } catch (error) {
       setErrors({ ...errors, submit: error.message });
     }

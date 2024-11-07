@@ -223,7 +223,7 @@ app.post("/changePassword", async (req, res) => {
 // Change password with old password verification
 app.post("/changepass", verifyJWT, async (req, res) => {
   const { oldpass, newPass } = req.body;
-  const userId = req.user.id;
+  const userId = req.body.id;
 
   try {
     const user = await User.findById(userId);

@@ -98,7 +98,6 @@ const AddNotes = () => {
       if (!data.status) {
         throw new Error("Failed to add notes");
       }
-      console.log(data.note._id)
       nav(`/notes/${data.note._id}`)
       
     } catch (error) {

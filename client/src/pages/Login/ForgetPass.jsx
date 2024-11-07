@@ -71,7 +71,6 @@ function ForgetPassword() {
           // Verify OTP
           if (formData.otp !== otp) {
             setOtpError("Invalid OTP");
-            console.log(false);
           } else {
             setPasswordChanged(true);
           }
