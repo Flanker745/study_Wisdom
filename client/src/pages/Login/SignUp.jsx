@@ -80,7 +80,6 @@ const SignUp = () => {
       if (!otp) {
         setOtpError("Please enter OTP!");
         isValid = false;
-        console.log(recivedOtp);
       } else {
         
         setOtpError("");
@@ -146,7 +145,6 @@ const SignUp = () => {
     if (responce.status) {
       setOtpSent(true);
       setRecivedOtp(responce.otp)
-      console.log(responce.otp)
       return true;
     } else {
       setEmailError(responce.msg);

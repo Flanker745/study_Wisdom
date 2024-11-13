@@ -10,7 +10,7 @@ const verifyJWT = (req, res, next) => {
     auth = auth.split(" ")[1];
     JWT.verify(auth, jwtKey, (err, decode) => {
       if (err) {
-        return res.status(403).json({ msg: "Something went wrong", status: false });
+        return res.status(403).json({ msg: "Something went wrong", status: false  });
       }
       req.user = decode.user;
       next();

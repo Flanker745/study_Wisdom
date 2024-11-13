@@ -211,9 +211,9 @@ app.post("/changePassword", async (req, res) => {
       await user.save();
       res
         .status(200)
-        .json({ msg: "Password updated successfully", success: true });
+        .json({ msg: "Password updated successfully", status: true });
     } else {
-      res.status(404).json({ msg: "User not found", success: false });
+      res.status(404).json({ msg: "User not found", status: false });
     }
   } catch (error) {
     res.status(500).json({ msg: error.message, success: false });
@@ -572,6 +572,38 @@ app.get("/searchMentor", async (req, res) => {
     res.json({ msg: err.message, status: false });
   }
 });
+app.post("/updateProfile/:userId", verifyJWT, profiles, async (req, res) => {
+  const { userId } = req.params;  // Assuming the user ID is sent in the request body
+  const dp = req.file; // New profile picture uploaded
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found", status: false });
+    }
+
+    // Check if there's an existing profile image and delete it
+    if (user.dp) {
+      const oldImagePath = path.join(__dirname, "uploads", "Profiles", user.dp);
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath); // Delete the old profile image
+      }
+    }
+
+    // Save the new profile picture filename
+    user.dp = dp.filename; // Update with the new filename
+
+    // Save the user record with the new dp
+    await user.save();
+
+    // Respond with success
+    res.status(200).json({ msg: "Profile updated successfully", status: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Error updating profile", status: false });
+  }
+});
+
 
 
 app.listen(5000, () => {

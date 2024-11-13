@@ -85,14 +85,13 @@ function ForgetPassword() {
             }),
           });
           response = await response.json();
-          if (response.success) {
+          if (response.status) {
             navigate("/login");
           } else {
             setPasswordError("Failed to change password");
           }
         }
       } catch (err) {
-        console.log(err);
       }
     } else {
       setErrors(newErrors);

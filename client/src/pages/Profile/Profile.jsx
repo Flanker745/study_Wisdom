@@ -22,7 +22,6 @@ function Profile() {
   const { api, token, userData, loading, error } = useContext(UserContext);
   const id = state;
   const navigate = useNavigate();
-
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -31,7 +30,7 @@ function Profile() {
     newPassword: "",
     confirmPassword: "",
   });
-
+  const [User_id , setId] = useState({})
   const [errors, setErrors] = useState({});
   const [oldPassNot, setoldPassNot] = useState(false);
   const passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
@@ -42,7 +41,6 @@ function Profile() {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleChangePassword = async () => {
     const newErrors = {};
     const conformed = {};
@@ -92,6 +90,7 @@ function Profile() {
 
   useEffect(() => {
     if (userData) {
+      setId(userData._id)
       setProfilePic(userData.dp);
     }
   }, [userData]);
@@ -126,16 +125,31 @@ function Profile() {
     }
   };
 
-  const changeProfilePic = (path)=>{
-    console.log(path)
-  }
+ 
 
   const handleDone = async () => {
     const croppedImage = await getCroppedImg(selectedImage, croppedAreaPixels);
     setProfilePic(croppedImage);
-    changeProfilePic(croppedImage);
+    uploadProfilePic(croppedImage)
     setIsEditingPic(false);
   };
+  const uploadProfilePic = async (file) => {
+    const formData = new FormData();
+    formData.append("dp", fileInput.files[0]);
+    
+    let response = await fetch(`${api}/updateProfile/${User_id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData
+    });
+  
+    if (!response.ok) {
+      console.error("Failed to upload image");
+    }
+  };
+  
 
   const logout = () => {
     dispatch({ type: "USER", payload: false });
