@@ -55,6 +55,7 @@ const Mentor = () => {
         },
       });
       let data = await response.json();
+      console.log(data)
       if (data.res) {
         setMentors(data.res);
         setError("");
@@ -62,7 +63,7 @@ const Mentor = () => {
         throw new Error("No mentors found");
       }
     } catch (err) {
-      setError("An error occurred while fetching mentors");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -90,12 +91,13 @@ const Mentor = () => {
   };
 const Homepage =  location.pathname.startsWith("/");
   useEffect(() => {
-    if (searchInput || Homepage) {
-      searchMentors(searchInput);
-    } else {
-      fetchMentors();
-    }
-  }, [searchInput]);
+    // if (searchInput || Homepage) {
+    //    searchMentors(searchInput);
+    // } else {
+    //   fetchMentors();
+    // }
+    fetchMentors();
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
