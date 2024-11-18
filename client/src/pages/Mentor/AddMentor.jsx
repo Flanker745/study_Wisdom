@@ -1,18 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../components/Context/UserContext";
 import { FaUser, FaMapMarkerAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MentorSignUp = () => {
   const [step, setStep] = useState(1);
   const { api, token, userData, loading } = useContext(UserContext);
   const nav = useNavigate();
+  const location = useLocation();
+  const type = location.state?.type;
   const [formData, setFormData] = useState({
     userId: "",
     name: "",
     experience: "",
     location: "",
-    expertise: "",
+    helpWith: "",
+    type:type,
     field: "",
     about: "",
     price: { videoCall: "", call: "", chat: "" },
@@ -27,7 +30,7 @@ const MentorSignUp = () => {
     name: "",
     experience: "",
     location: "",
-    expertise: "",
+    helpWith: "",
     field: "",
     about: "",
     qualification: "",
@@ -74,7 +77,14 @@ const MentorSignUp = () => {
         name: userData.firstName + " " + userData.lastName,
       }));
     }
-  }, [userData, loading]);
+  }, [userData, loading , type]);
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      type: type || prevData.type, // Preserve existing value if `type` is undefined
+    }));
+  }, [type]);
+  
 
   const nextStep = () => {
     const {
@@ -82,7 +92,7 @@ const MentorSignUp = () => {
       experience,
       location,
       qualification,
-      expertise,
+      helpWith,
       field,
       about,
       whatsappNumber,
@@ -109,8 +119,8 @@ const MentorSignUp = () => {
       newErrors.field = "field is required.";
     if (step === 3 && !about)
       newErrors.about = "about is required.";
-    if (step === 8 && !expertise)
-      newErrors.expertise = "expertise is required.";
+    if (step === 8 && !helpWith)
+      newErrors.helpWith = "helpWith is required.";
     if (step === 9 && availabilityDays.length === 0)
       newErrors.availabilityDays = "Select at least one availability day.";
     if (step === 9 && (!availabilityTime.start || !availabilityTime.end))
@@ -169,9 +179,10 @@ const MentorSignUp = () => {
   return (
     <div className="w-full h-screen dark:text-gray-200 max-w-lg mx-auto p-4">
       <h2 className="text-2xl m-auto text-center font-bold mb-4">
-        Mentor Sign Up
+        {type} Sign Up
       </h2>
       <input type="hidden" name="userId" value={formData.userId} />
+      <input type="hidden" name="type" value={formData.type} />
       <div className="w-full h-full flex items-center justify-center">
         {step === 1 && (
           <div>
@@ -405,19 +416,19 @@ const MentorSignUp = () => {
         )}
         {step === 8 && (
           <div>
-            <label className="block mb-2">Expertise:</label>
-            <input
+            <label className="block mb-2">you can help with :</label>
+            <textarea
               type="text"
-              name="expertise"
-              value={formData.expertise}
+              name="helpWith"
+              value={formData.helpWith}
               onChange={handleInputChange}
               className={`w-full border p-2 bg-transparent focus:outline-none rounded mb-4 ${
-                errors.expertise ? "border-red-500" : ""
+                errors.helpWith ? "border-red-500" : ""
               }`}
-              placeholder="Enter your expertise"
-            />
-            {errors.expertise && (
-              <div className="text-red-500 absolute">{errors.expertise}</div>
+              placeholder="Enter your helpWith">
+              </textarea>
+            {errors.helpWith && (
+              <div className="text-red-500 absolute">{errors.helpWith}</div>
             )}
 
             <button onClick={prevStep} className="bg-gray-300 p-2 rounded mr-2">

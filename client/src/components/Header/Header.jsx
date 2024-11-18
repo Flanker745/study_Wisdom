@@ -13,9 +13,11 @@ import { MdLogin } from "react-icons/md";
 import { LoginContext } from "../../main";
 import { UserContext } from "../Context/UserContext";
 import { SearchContext } from "../Context/SearchContext";
+import { FaChalkboardTeacher } from "react-icons/fa";
 
 function Header() {
   const { state, dispatch } = useContext(LoginContext);
+
   const nav = useNavigate();
   const location = useLocation(); // Get the current route path
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
@@ -23,6 +25,7 @@ function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { searchInput, setSearchInput } = useContext(SearchContext);
   const [profilepic , setprofilepic] = useState("");
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 350) {
@@ -102,20 +105,21 @@ function Header() {
               </li>
               <li
                 className={`group relative ${
+                  isActive("/guide") ? "text-purple-900" : ""
+                }`}
+              >
+                <Link to="/guide">Guide</Link>
+                <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
+              </li>
+              <li
+                className={`group relative ${
                   isActive("/notes") ? "text-purple-900" : ""
                 }`}
               >
                 <Link to="/notes">Notes</Link>
                 <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
               </li>
-              <li
-                className={`group relative ${
-                  isActive("/aiChat") ? "text-purple-900" : ""
-                }`}
-              >
-                <Link to="/aiChat">AI Chat</Link>
-                <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
-              </li>
+              
               <div>
                 <input
                   type="checkbox"
@@ -182,6 +186,16 @@ function Header() {
           </li>
           <li
             className={`${
+              isActive("/guide") ? "text-purple-900" : ""
+            } duration-300`}
+          >
+            <Link to="/guide">
+            <FaChalkboardTeacher className="text-[25px] m-auto " />
+            </Link>
+            <p>Guide</p>
+          </li>
+          <li
+            className={`${
               isActive("/notes") ? "text-purple-900" : ""
             } duration-300`}
           >
@@ -190,18 +204,7 @@ function Header() {
               <p>Notes</p>
             </Link>
           </li>
-          <li
-            className={`${
-              isActive("/aiChat") ? "text-purple-900" : ""
-            } duration-300`}
-          >
-            <Link to="/aiChat">
-              <div className="bg-gray-200 mb-[2px]  rounded-full">
-                <div className="p-[7px]">AI</div>
-              </div>
-            </Link>
-            <p>Chat</p>
-          </li>
+          
           <div>
             <input
               type="checkbox"
@@ -233,7 +236,7 @@ function Header() {
             >
               <Link to="/profile">
                 <div className="w-[32px] h-[32px] m-auto mb-[1px] rounded-full  overflow-hidden">
-                  <img src={dp} alt="" />
+                  <img src={profilepic} alt="" />
                 </div>
                 <p>Profile</p>
               </Link>

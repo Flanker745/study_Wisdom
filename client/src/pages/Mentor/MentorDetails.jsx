@@ -154,7 +154,7 @@ const MentorDetails = () => {
             className="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900 p-4 rounded-lg hover:bg-blue-500 hover:text-white cursor-pointer transition-all duration-300 shadow-md"
           >
             <FaPhone className="text-blue-500 dark:text-blue-400 text-3xl" />
-            <p className="text-lg font-semibold mt-2">${mentor.price.call}</p>
+            <p className="text-lg font-semibold mt-2"> ₹{mentor.price.call}</p>
             <p className="text-gray-500 dark:text-gray-300">Call</p>
           </div>
 
@@ -165,7 +165,7 @@ const MentorDetails = () => {
           >
             <FaVideo className="text-green-500 dark:text-green-400 text-3xl" />
             <p className="text-lg font-semibold mt-2">
-              ${mentor.price.videoCall}
+               ₹{mentor.price.videoCall}
             </p>
             <p className="text-gray-500 dark:text-gray-300">Video Call</p>
           </div>
@@ -176,7 +176,7 @@ const MentorDetails = () => {
             className="flex flex-col items-center justify-center bg-purple-50 dark:bg-purple-900 p-4 rounded-lg hover:bg-purple-500 hover:text-white cursor-pointer transition-all duration-300 shadow-md"
           >
             <FaComment className="text-purple-500 dark:text-purple-400 text-3xl" />
-            <p className="text-lg font-semibold mt-2">${mentor.price.chat}</p>
+            <p className="text-lg font-semibold mt-2"> ₹{mentor.price.chat}</p>
             <p className="text-gray-500 dark:text-gray-300">Chat</p>
           </div>
         </div>

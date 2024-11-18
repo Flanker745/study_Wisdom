@@ -10,7 +10,7 @@ import {
 import { IoRocketOutline } from "react-icons/io5";
 import { FiBriefcase } from "react-icons/fi";
 import { BiMap } from "react-icons/bi";
-import dp from "./../../assets/dp/profile-pic (4).png";
+import dp from "./../../assets/logo/logo.png";
 import { UserContext } from "../../components/Context/UserContext";
 import { SearchContext } from "../../components/Context/SearchContext";
 
@@ -48,7 +48,7 @@ const Mentor = () => {
   const fetchMentors = async () => {
     setLoading(true);
     try {
-      let response = await fetch(`${api}/viewMentor`, {
+      let response = await fetch(`${api}/viewGuide`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

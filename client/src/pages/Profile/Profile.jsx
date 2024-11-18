@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Cropper from "react-easy-crop";
 import cookie from "react-cookies";
+import { BiSolidBookBookmark } from "react-icons/bi";
+import { FaUser } from "react-icons/fa";
 
 import {
   IoPencilSharp,
@@ -22,6 +24,7 @@ function Profile() {
   const { api, token, userData, loading, error } = useContext(UserContext);
   const id = state;
   const navigate = useNavigate();
+  const [list, setList] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -30,7 +33,7 @@ function Profile() {
     newPassword: "",
     confirmPassword: "",
   });
-  const [User_id , setId] = useState({})
+  const [User_id, setId] = useState({});
   const [errors, setErrors] = useState({});
   const [oldPassNot, setoldPassNot] = useState(false);
   const passwordRegex = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
@@ -53,16 +56,16 @@ function Profile() {
     if (userInfo.newPassword !== userInfo.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match.";
     }
-   
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       let response = await fetch(`${api}/changepass`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" ,           
+        headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-      },
+        },
         body: JSON.stringify({
           id: id,
           oldpass: userInfo.oldPassword,
@@ -71,9 +74,8 @@ function Profile() {
       });
 
       response = await response.json();
-      if(!response.status){
-        setoldPassNot(response.msg)
-
+      if (!response.status) {
+        setoldPassNot(response.msg);
       }
       if (response.status) {
         setUserInfo({
@@ -83,14 +85,14 @@ function Profile() {
           confirmPassword: "",
         });
         setIsChangingPassword(false);
-
       }
     }
   };
 
+  
   useEffect(() => {
     if (userData) {
-      setId(userData._id)
+      setId(userData._id);
       setProfilePic(userData.dp);
     }
   }, [userData]);
@@ -125,31 +127,28 @@ function Profile() {
     }
   };
 
- 
-
   const handleDone = async () => {
     const croppedImage = await getCroppedImg(selectedImage, croppedAreaPixels);
     setProfilePic(croppedImage);
-    uploadProfilePic(croppedImage)
+    uploadProfilePic(croppedImage);
     setIsEditingPic(false);
   };
   const uploadProfilePic = async (file) => {
     const formData = new FormData();
     formData.append("dp", fileInput.files[0]);
-    
+
     let response = await fetch(`${api}/updateProfile/${User_id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: formData
+      body: formData,
     });
-  
+
     if (!response.ok) {
       console.error("Failed to upload image");
     }
   };
-  
 
   const logout = () => {
     dispatch({ type: "USER", payload: false });
@@ -160,12 +159,42 @@ function Profile() {
 
     navigate("/");
   };
+  const handleNavigation = (type) => {
+    navigate("/addMentor", { state: { type } });
+  };
 
   if (loading) {
     return <div className="loading"></div>;
   }
   return (
-    <div className="min-h-screen w-full bg-neutral-200 text-gray-700 dark:bg-gray-900 dark:text-gray-200 p-6">
+    <div className="min-h-screen w-full relative  bg-neutral-200 text-gray-700 overflow-hidden dark:bg-gray-900 dark:text-gray-200 p-6">
+      <div className={`fixed flex items-center justify-center  z-[999] w-screen h-[100%]  bg-opacity-30 bg-gray-500 ${list ? "block" : "hidden"}`}>
+        <div className="w-fit bg-white px-9 py-9  rounded-3xl">
+          <div>
+            <button  onClick={() => handleNavigation("mentor")}
+              className="flex mt-7 items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
+            >
+              <FaUser className="mr-2" />
+              List as mentor
+            </button>
+            <button  onClick={() => handleNavigation("guide")}
+              className="flex mt-7 items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
+            >
+              <FaUser className="mr-2" />
+              List as guide
+            </button>
+            <button  onClick={() => handleNavigation("both")}
+              className="flex mt-7 items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
+            >
+              <FaUser className="mr-2" />
+              List as both
+            </button>
+            <button onClick={()=>{setList(false)}} className="flex mt-7 items-center justify-center w-full bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
       <h1 className="border-b border-gray-700 pb-4 text-4xl font-bold text-center">
         Profile
       </h1>
@@ -362,20 +391,17 @@ function Profile() {
         {/* list as mentor */}
         <div className="flex gap-9">
           {!userData.mentor && (
-            <Link
-              to={"/addMentor"}
-              className="flex mt-7  items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
-            >
-              <IoLockClosed className="mr-2" />
+            <button onClick={()=>{setList(true)}} className="flex mt-7  items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition">
+              <FaUser className="mr-2" />
               List as mentor
-            </Link>
+            </button>
           )}
           {!userData.notes && (
             <Link
               to={"/addNotes"}
               className="flex mt-7  items-center justify-center w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
             >
-              <IoLockClosed className="mr-2" />
+              <BiSolidBookBookmark className="mr-2" />
               Add notes
             </Link>
           )}
