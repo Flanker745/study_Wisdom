@@ -103,14 +103,7 @@ function Header() {
                 <Link to="/">Home</Link>
                 <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
               </li>
-              <li
-                className={`group relative ${
-                  isActive("/guide") ? "text-purple-900" : ""
-                }`}
-              >
-                <Link to="/guide">Guide</Link>
-                <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
-              </li>
+             
               <li
                 className={`group relative ${
                   isActive("/notes") ? "text-purple-900" : ""
@@ -119,7 +112,16 @@ function Header() {
                 <Link to="/notes">Notes</Link>
                 <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
               </li>
-              
+              <li
+                className={`group relative ${
+                  isActive("/aichat") ? "text-purple-900" : ""
+                }`}
+              >
+                <Link to="/aichat">
+                
+                Ai Chat</Link>
+                <div className="absolute  bg-purple-900 w-0 duration-200 group-hover:w-full py-[1px]"></div>
+              </li>
               <div>
                 <input
                   type="checkbox"
@@ -184,16 +186,7 @@ function Header() {
               <p>Home</p>
             </Link>
           </li>
-          <li
-            className={`${
-              isActive("/guide") ? "text-purple-900" : ""
-            } duration-300`}
-          >
-            <Link to="/guide">
-            <FaChalkboardTeacher className="text-[25px] m-auto " />
-            </Link>
-            <p>Guide</p>
-          </li>
+          
           <li
             className={`${
               isActive("/notes") ? "text-purple-900" : ""
@@ -204,7 +197,18 @@ function Header() {
               <p>Notes</p>
             </Link>
           </li>
-          
+          <li
+            className={`${
+              isActive("/guide") ? "text-purple-900" : ""
+            } duration-300`}
+          >
+            <Link to="/aichat">
+            <div className="bg-gray-200 mb-[2px]  rounded-full">
+                <div className="p-[7px]">AI</div>
+              </div>
+            </Link>
+            <p>Chat</p>
+          </li>
           <div>
             <input
               type="checkbox"

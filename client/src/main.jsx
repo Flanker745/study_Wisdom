@@ -22,7 +22,6 @@ import AddMentor from "./pages/Mentor/AddMentor";
 import AddNotes from "./pages/Notes/AddNotes";
 import { SearchProvider } from "./components/Context/SearchContext";
 import ForgetPassword from "./pages/Login/ForgetPass";
-import Guide from "./pages/Guide/Guide";
 
 // Lazy load the Home component
 const Home = lazy(() => import("./components/Home"));
@@ -58,8 +57,8 @@ function App() {
               element: <NoteDetailPage />,
             },
             {
-              path: "/guide",
-              element: <Guide/>,
+              path: "/aichat",
+              element: <Aichat/>,
             },
             {
               path: "/chat/:id",

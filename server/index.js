@@ -276,7 +276,6 @@ app.post("/addMentor", verifyJWT, async (req, res) => {
     name,
     experience,
     helpWith,
-    type,
       field,
       about,
     location,
@@ -295,7 +294,6 @@ app.post("/addMentor", verifyJWT, async (req, res) => {
       !experience ||
       !helpWith ||
       !field ||
-      !type ||
       !about ||
       !location ||
       !price ||
@@ -314,7 +312,6 @@ app.post("/addMentor", verifyJWT, async (req, res) => {
       location,
       helpWith,
       field,
-      type,
       about,
       price,
       qualification,
@@ -514,41 +511,6 @@ app.get("/viewMentor", async (req, res) => {
     res.json({ msg: err.message, status: false });
   }
 });
-
-
-app.get("/viewGuide", async (req, res) => {
-  try {
-    // Fetch mentors where type is "guide" or "both" (directly filter mentors)
-    const response = await Mentor.find({ type: { $in: ["guide", "both"] } })
-      .populate({
-        path: "userId", // Reference to the 'User' model
-        select: "firstName lastName dp type", // Select required fields
-      });
-
-    console.log(response);
-
-    // Modify each mentor response to include full URL for 'dp'
-    const updatedResponse = response.map((mentor) => {
-      if (mentor.userId && mentor.userId.dp) {
-        const currentDp = mentor.userId.dp;
-        const baseUrl = `${req.protocol}://${req.get("host")}/uploads/Profiles/`;
-    
-        // Only prepend the base URL if it's not already included
-        if (!currentDp.startsWith(baseUrl)) {
-          mentor.userId.dp = baseUrl + currentDp;
-        }
-      }
-      return mentor;
-    });
-
-    res.json({ msg: "API called", res: updatedResponse, status: true });
-  } catch (err) {
-    res.json({ msg: err.message, status: false });
-  }
-});
-
-
-
 
 
 app.get("/viewMentor/:id", async (req, res) => {

@@ -8,14 +8,12 @@ const MentorSignUp = () => {
   const { api, token, userData, loading } = useContext(UserContext);
   const nav = useNavigate();
   const location = useLocation();
-  const type = location.state?.type;
   const [formData, setFormData] = useState({
     userId: "",
     name: "",
     experience: "",
     location: "",
     helpWith: "",
-    type:type,
     field: "",
     about: "",
     price: { videoCall: "", call: "", chat: "" },
@@ -77,13 +75,12 @@ const MentorSignUp = () => {
         name: userData.firstName + " " + userData.lastName,
       }));
     }
-  }, [userData, loading , type]);
+  }, [userData, loading ]);
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
-      type: type || prevData.type, // Preserve existing value if `type` is undefined
     }));
-  }, [type]);
+  }, []);
   
 
   const nextStep = () => {
@@ -179,10 +176,9 @@ const MentorSignUp = () => {
   return (
     <div className="w-full h-screen dark:text-gray-200 max-w-lg mx-auto p-4">
       <h2 className="text-2xl m-auto text-center font-bold mb-4">
-        {type} Sign Up
+        Mentor Sign Up
       </h2>
       <input type="hidden" name="userId" value={formData.userId} />
-      <input type="hidden" name="type" value={formData.type} />
       <div className="w-full h-full flex items-center justify-center">
         {step === 1 && (
           <div>
